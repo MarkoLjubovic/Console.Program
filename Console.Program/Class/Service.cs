@@ -10,7 +10,7 @@ namespace Console.Program.Class
 {
     public class Service : IService
     {
-
+        Storage storage = new Storage();
         public void Izbornik(List<Knjiga> knjige, List<DVD> dVDs, List<AudioBook> audioBooks, Validation validation)
         {
             System.Console.WriteLine("Što od navedenog želite odabrati?");
@@ -24,21 +24,21 @@ namespace Console.Program.Class
             switch (validation.unosOpcija)
             {
                 case 1:
-                    OdabirKnjiga(knjige, dVDs, audioBooks, validation);
+                    OdabirKnjiga(knjige, validation);
                     break;
 
                 case 2:
-                    OdabirDVDa(knjige, dVDs, audioBooks, validation);
+                    OdabirDVDa(dVDs, validation);
                     break;
 
                 case 3:
-                    OdabirAudioBooks(knjige, dVDs, audioBooks, validation);
+                    OdabirAudioBooks(audioBooks, validation);
                     break;
 
             }
         }
 
-        public void OdabirAudioBooks(List<Knjiga> knjige, List<DVD> dVDs, List<AudioBook> audioBooks, Validation validation)
+        public void OdabirAudioBooks(List<AudioBook> audioBooks, Validation validation)
         {
             System.Console.WriteLine("Izbornik AudioBooks je otvoren, molimo vas da unesete ime naziv i ime autora.");
 
@@ -66,7 +66,7 @@ namespace Console.Program.Class
                     System.Console.WriteLine($"Naziv: {audioBook.Naziv}, Autor: {audioBook.Autor}, " +
                         $"Godina izdavanja: {audioBook.GodinaIzdavanja}, Duzina trajanja: {audioBook.Velicina}");
                     System.Console.WriteLine($"Datum i vrijeme posudbe je {currentDate} {now} i AudioBook je potrebno vratiti do {nextDate}{now}.");
-                    Izbornik(knjige, dVDs, audioBooks, validation);
+                    Izbornik(storage.Knjige, storage.dVDs, audioBooks, validation);
                     flag = true;
                     break;
                 }
@@ -75,11 +75,11 @@ namespace Console.Program.Class
             if (!flag)
             {
                 System.Console.WriteLine("DVD ne postoji.");
-                Izbornik(knjige, dVDs, audioBooks, validation);
+                Izbornik(storage.Knjige, storage.dVDs, audioBooks, validation);
             }
         }
 
-        public void OdabirDVDa(List<Knjiga> knjige, List<DVD> dVDs, List<AudioBook> audioBooks, Validation validation)
+        public void OdabirDVDa(List<DVD> dVDs, Validation validation)
         {
             System.Console.WriteLine("Izbornik DVD-a je otvoren, molimo vas da unesete ime naziv i ime autora.");
 
@@ -107,7 +107,7 @@ namespace Console.Program.Class
                     System.Console.WriteLine($"Naziv: {dvd.Naziv}, Autor: {dvd.Autor}, " +
                         $"Godina izdavanja: {dvd.GodinaIzdavanja}, Duzina trajanja: {dvd.DuzinaTrajanja}");
                     System.Console.WriteLine($"Datum i vrijeme posudbe je {currentDate} {now} i DVD je potrebno vratiti do {nextDate}{now}.");
-                    Izbornik(knjige, dVDs, audioBooks, validation);
+                    Izbornik(storage.Knjige, dVDs, storage.audioBooks, validation);
                     flag = true;
                     break;
                 }
@@ -116,11 +116,11 @@ namespace Console.Program.Class
             if (!flag)
             {
                 System.Console.WriteLine("DVD ne postoji.");
-                Izbornik(knjige, dVDs, audioBooks, validation);
+                Izbornik(storage.Knjige, dVDs, storage.audioBooks, validation);
             }
         }
 
-        public void OdabirKnjiga(List<Knjiga> knjige, List<DVD> dVDs, List<AudioBook> audioBooks, Validation validation)
+        public void OdabirKnjiga(List<Knjiga> knjige, Validation validation)
         {
             System.Console.WriteLine("Izbornik knjiga je otvoren, molimo vas da unesete naziv i ime autora.");
             System.Console.WriteLine("Trenutno dostupne knjige:");
@@ -147,7 +147,7 @@ namespace Console.Program.Class
                     System.Console.WriteLine($"Naziv: {knjiga.Naziv}, Autor: {knjiga.Autor}, " +
                         $"Godina izdavanja: {knjiga.GodinaIzdavanja}, Broj stranica: {knjiga.BrojStranica}");
                     System.Console.WriteLine($"Datum i vrijeme posudbe je {currentDate} {now} i knjigu je potrebno vratiti do {nextDate}{now}.");
-                    Izbornik(knjige, dVDs, audioBooks, validation);
+                    Izbornik(knjige, storage.dVDs, storage.audioBooks, validation);
                     flag = true;
                     break;
                 }
@@ -156,7 +156,7 @@ namespace Console.Program.Class
             if (!flag)
             {
                 System.Console.WriteLine("Knjiga ne postoji.");
-                Izbornik(knjige, dVDs, audioBooks, validation);
+                Izbornik(knjige, storage.dVDs, storage.audioBooks, validation);
             }
         }
 
@@ -166,21 +166,24 @@ namespace Console.Program.Class
         }
 
 
-        public void UnosPodatak(List<Knjiga> knjige, List<DVD> dVDs, List<AudioBook> audioBooks, Validation validation)
+        public void UnosPodatak(Validation validation)
         {
             System.Console.WriteLine("Unesi ime korisnika:");
             string ime = System.Console.ReadLine();
+            validation.ProvjeraImena(ime);
             System.Console.WriteLine("Unesi prezime korisnika:");
             string prezime = System.Console.ReadLine();
-            validation.UnosTeksta(ime, prezime);
+            validation.ProvjeraPrezimena(prezime);
+
             var currentDate = DateOnly.FromDateTime(DateTime.Now);
             var now = TimeOnly.FromDateTime(DateTime.Now);
+
             KorisnikKnjiznice korisnikKnjiznice = new KorisnikKnjiznice(ime, prezime, currentDate, now);
 
             System.Console.WriteLine($"Uspješna prijava na sustav {validation.unosPrvogTeksta} {validation.unosDrugogTeksta} - datum pristupa je {korisnikKnjiznice.DatumPosuđivanja}, " +
                 $"dok je samo vrijeme prijave na sustav {korisnikKnjiznice.VrijemePrijave}");
             System.Console.WriteLine(" ");
-            Izbornik(knjige, dVDs, audioBooks, validation);
+            Izbornik(storage.Knjige, storage.dVDs, storage.audioBooks, validation);
         }
     }
 }

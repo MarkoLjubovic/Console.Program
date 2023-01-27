@@ -10,6 +10,6 @@ public class Program
 
         Service s = new Service();
         s.Pozdrav();
-        s.UnosPodatak(storage.Knjige, storage.dVDs, storage.audioBooks, validation);
+        s.UnosPodatak(validation);
     }
 }

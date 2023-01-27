@@ -8,7 +8,8 @@ namespace Console.Program.Validations.Interfaces
 {
     public interface IValidation
     {
-        void UnosTeksta(string prviUnos, string drugiUnos);
+        void ProvjeraImena(string prviUnos);
+        void ProvjeraPrezimena(string drugiUnos);
         void OdabirOpcije(int unos);
     }
 }

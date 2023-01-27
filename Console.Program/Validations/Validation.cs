@@ -34,7 +34,7 @@ namespace Console.Program.Validations
             }
         }
 
-        public void UnosTeksta(string prviUnos, string drugiUnos)
+        public void ProvjeraImena(string prviUnos)
         {
             bool flag = true;
 
@@ -46,6 +46,24 @@ namespace Console.Program.Validations
                 }
             }
 
+            if (flag == true)
+            {
+                unosPrvogTeksta = prviUnos;
+            }
+
+            if (flag == false)
+            {
+                System.Console.WriteLine("Potrebno je unijeti samo slova. Ime nije dobro.");
+                System.Console.WriteLine($"Unesi ponovno:");
+                prviUnos = System.Console.ReadLine();
+                unosPrvogTeksta = prviUnos;
+            }
+        }
+
+        public void ProvjeraPrezimena(string drugiUnos)
+        {
+            bool flag = true;
+
             foreach (var e in drugiUnos)
             {
                 if (!Char.IsLetter(e))
@@ -54,20 +72,17 @@ namespace Console.Program.Validations
                 }
             }
 
+
             if (flag == true)
             {
-                unosPrvogTeksta = prviUnos;
                 unosDrugogTeksta = drugiUnos;
             }
 
             if (flag == false)
             {
-                System.Console.WriteLine("Potrebno je unijeti samo slova.");
-                System.Console.WriteLine($"Unesi ime ponovno:");
-                prviUnos = System.Console.ReadLine();
-                System.Console.WriteLine($"Unesi prezime ponovno:");
+                System.Console.WriteLine("Potrebno je unijeti samo slova. Prezime nije dobro.");
+                System.Console.WriteLine($"Unesi ponovno:");
                 drugiUnos = System.Console.ReadLine();
-                unosPrvogTeksta = prviUnos;
                 unosDrugogTeksta = drugiUnos;
             }
         }

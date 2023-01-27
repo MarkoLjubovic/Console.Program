@@ -11,10 +11,10 @@ namespace Console.Program.Interfaces
     public interface IService
     {
         void Pozdrav();
-        public void UnosPodatak(List<Knjiga> knjige, List<DVD> dVDs, List<AudioBook> audioBooks, Validation validation);
+        public void UnosPodatak(Validation validation);
         public void Izbornik(List<Knjiga> knjige, List<DVD> dVDs, List<AudioBook> audioBooks, Validation validation);
-        public void OdabirAudioBooks(List<Knjiga> knjige, List<DVD> dVDs, List<AudioBook> audioBooks, Validation validation);
-        public void OdabirDVDa(List<Knjiga> knjige, List<DVD> dVDs, List<AudioBook> audioBooks, Validation validation);
-        public void OdabirKnjiga(List<Knjiga> knjige, List<DVD> dVDs, List<AudioBook> audioBooks, Validation validation);
+        public void OdabirAudioBooks(List<AudioBook> audioBooks, Validation validation);
+        public void OdabirDVDa(List<DVD> dVDs, Validation validation);
+        public void OdabirKnjiga(List<Knjiga> knjige, Validation validation);
     }
 }
